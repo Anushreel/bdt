@@ -1,0 +1,11 @@
+def prog23()={
+    val data=Array(1,2,3,7,5,6,8,90,2,3,43,4)
+    val rdd=sc.parallelize(data, 3)
+    rdd.glom().foreach(arr=>println(arr.mkString(", ")))
+
+    val rdd2=rdd.mapPartitionsWithIndex((index, itr)=>
+    itr.map((element)=>(index, element+1)))
+
+    val rdd3=rdd2.collect()
+    rdd3.foreach{case(index, element)=>println(s"$index - $element")}
+}

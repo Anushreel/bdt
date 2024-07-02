@@ -1,0 +1,13 @@
+def p() = {
+val data = Seq(("coffee", 2), ("cappuccino", 5), ("tea", 3), ("coffee", 10), ("cappuccino", 15))
+val rdd = sc.parallelize(data)
+val combinedRDD = rdd.combineByKey(
+(value: Int) => value, // createCombiner: initialize the accumulator for each key
+(acc: Int, value: Int) => acc + value, // mergeValue: add an element to the accumulator
+(acc1: Int, acc2: Int) => acc1 + acc2 // mergeCombiners: combine accumulators from different partitions
+)
+val results = combinedRDD.collect()
+results.foreach { case (key, sum) =>
+println(s"$key: $sum")
+}
+}

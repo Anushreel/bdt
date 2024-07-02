@@ -1,0 +1,8 @@
+object prog17{
+    def prog17()={
+        val path="./text.txt"
+        val inputFile=sc.textFile(path)
+        val words=inputFile.flatMap((line)=>line.split("\\W+"))
+        val allWords=words.map((word)=>(word.toLowerCase(), 1)).reduceByKey(+)
+        allWords.collect().foreach{case(word, count)=>println(s"$word -> $count")}
+    }

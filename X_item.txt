@@ -1,0 +1,18 @@
+def prog24()={
+    val data=Map(
+        "Ball"->10,
+         "Ribbon"->50,
+          "Box"->20,
+           "Pen"->5,
+            "Book"->8,
+             "Dairy"->4,
+             "Pin"->20
+    )
+    val rdd=sc.parallelize(data.toSeq)
+    val parts=rdd.getNumPartitions
+    println("partitions = "+parts)
+
+    val rdd2=rdd.mapPartitionsWithIndex((index, itr)=>
+    itr.map((element)=>(index, element)))
+    rdd2.collect().foreach{case(index, element)=>println(s"$index -> $element")}
+}

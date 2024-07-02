@@ -1,0 +1,17 @@
+case class Employee(empId: String, dept: String, desig: String)
+val data = Array(
+      Employee("1", "CSE", "teacher"),
+      Employee("2", "ISE", "teacher"),
+      Employee("3", "EEE", "teacher"),
+      Employee("4", "CSE", "teacher"),
+      Employee("5", "ECE", "teacher"),
+      Employee("6", "AIDS", "teacher"),
+      Employee("7", "CSE", "teacher"),
+      Employee("8", "ISE", "teacher"),
+      Employee("9", "MECH", "teacher")
+    )
+val rdd = sc.parallelize(data)
+val rdd2 = rdd.map(emp => (emp.dept, emp))
+import org.apache.spark.HashPartitioner
+val rdd3 = rdd2.partitionBy(new HashPartitioner(4)).map(_._2)
+rdd3.foreach(println)

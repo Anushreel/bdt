@@ -1,0 +1,15 @@
+def prog20()={
+    val array=Array(
+        ("Joe", "Maths", 83), ("Joe", "Physics", 74), ("Joe", "Chemistry", 91), ("Joe", "Biology", 82),
+        ("Nik", "Maths", 69), ("Nik", "Physics", 62), ("Nik", "Chemistry", 97), ("Nik", "Biology", 80)
+    )
+    val rdd=sc.parallelize(array)
+    val rdd2=rdd.map{case(name, subject, mark)=>(name, mark)}
+    val rdd3=rdd2.combineByKey(
+        (mark:Int)=>(mark, 1),
+        (acc:(Int, Int), mark:Int)=>(acc._1+mark, acc._2+1),
+        (acc1:(Int, Int), acc2:(Int, Int))=>(acc1._1+acc2._1, acc1._2+acc2._2)
+    )
+    val rdd4=rdd3.map{case(name, (sum, count))=>(name, sum.toDouble/count)}
+    rdd4.foreach{case(name, avg)=>println(s"$name -> $avg")}
+}

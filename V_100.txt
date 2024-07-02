@@ -1,0 +1,9 @@
+def prog22()={
+    val path="./numbers.csv"
+    val inputFile=sc.textFile(path)
+    val rdd=inputFile.flatMap((line)=>line.split("\\s+"))
+    val rdd2=rdd.map((num)=>num.toInt)
+    val sum=rdd2.reduce(_+_)
+    val count=rdd2.count()
+    println(sum.toDouble/count)
+}

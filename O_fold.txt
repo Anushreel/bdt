@@ -1,0 +1,8 @@
+def p() = {
+val data = List(1, 2, 3, 4, 5)
+val rc = sc.parallelize(data)
+val updatedFold = rc.fold(0)((a, b) => a + b + 100)
+val updatedAggr = rc.aggregate(0)((a, b) => a + b + 100, (a1, a2) => a1 + a2)
+println("Using fold: " + updatedFold)
+println("Using aggregate: " + updatedAggr)
+}
