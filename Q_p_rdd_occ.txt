@@ -1,4 +1,3 @@
-object prog17{
     def prog17()={
         val path="./text.txt"
         val inputFile=sc.textFile(path)
