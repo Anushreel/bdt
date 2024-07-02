@@ -2,7 +2,7 @@ def prog18()={
     val path="./tweets.json"
     val jsoninput=spark.read.json(path)
     val input=jsoninput.select("user").rdd.map((row)=>row.getString(0))
-    val inputUser=input.map((user)=>(user, 1)).reduceByKey(+)
+    val inputUser=input.map((user)=>(user, 1)).reduceByKey(_+_)
     val ans=inputUser.sortBy(_._2, ascending=false).take(10)
     ans.foreach{case(key, count)=>println(s"$key -> $count")}
 }
